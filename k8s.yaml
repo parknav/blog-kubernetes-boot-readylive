@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readylive
+  labels:
+    app: readylive
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: readylive
+  template:
+    metadata:
+      labels:
+        app: readylive
+    spec:
+      containers:
+        - name: readylive
+          image: readylive:v1
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: readylive
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: readylive
+  type: LoadBalancer
